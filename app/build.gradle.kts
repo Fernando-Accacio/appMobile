@@ -30,6 +30,7 @@ android {
         applicationId = "visionary.gobarber"
         minSdk = 24
         targetSdk = 35
+        // ./gradlew bundleRelease
         versionCode = 4
         versionName = "1.0.3"
         vectorDrawables.useSupportLibrary = true

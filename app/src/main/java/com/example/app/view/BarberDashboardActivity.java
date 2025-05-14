@@ -226,30 +226,41 @@ public class BarberDashboardActivity extends AppCompatActivity
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             String userId = user.getUid();
 
+            // Exclui o documento da coleção "usuarios"
             db.collection("usuarios").document(userId)
                     .delete()
                     .addOnSuccessListener(aVoid -> {
-
-                        user.delete()
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        FirebaseAuth.getInstance().signOut();
-                                        startActivity(new Intent(BarberDashboardActivity.this, MainMenu.class));
-                                        finish();
-                                        Toast.makeText(BarberDashboardActivity.this, "Conta excluída com sucesso", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(BarberDashboardActivity.this, "Falha ao excluir conta. Tente novamente.", Toast.LENGTH_SHORT).show();
-                                    }
+                        // Exclui o documento da coleção "barbeiros" (ajuste aqui conforme o nome real)
+                        db.collection("barbeiro").document(userId)
+                                .delete()
+                                .addOnSuccessListener(aVoid2 -> {
+                                    // Agora exclui o usuário do Firebase Auth
+                                    user.delete()
+                                            .addOnCompleteListener(task -> {
+                                                if (task.isSuccessful()) {
+                                                    FirebaseAuth.getInstance().signOut();
+                                                    startActivity(new Intent(BarberDashboardActivity.this, MainMenu.class));
+                                                    finish();
+                                                    Toast.makeText(BarberDashboardActivity.this, "Conta excluída com sucesso", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(BarberDashboardActivity.this, "Falha ao excluir conta. Tente novamente.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(BarberDashboardActivity.this, "Erro ao excluir dados do barbeiro", Toast.LENGTH_SHORT).show();
+                                    Log.e("Firebase", "Erro ao excluir documento do barbeiro", e);
                                 });
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(BarberDashboardActivity.this, "Falha ao excluir dados na Firestore. Tente novamente.", Toast.LENGTH_SHORT).show();
-                        Log.e("Firebase", "Erro ao excluir dados na Firestore", e);
+                        Toast.makeText(BarberDashboardActivity.this, "Erro ao excluir dados do usuário", Toast.LENGTH_SHORT).show();
+                        Log.e("Firebase", "Erro ao excluir documento de usuário", e);
                     });
         } else {
             Toast.makeText(this, "Nenhum usuário logado", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 
