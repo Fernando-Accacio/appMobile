@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".view.CreateStoreActivity">
+    tools:context=".view.CreateStoreActivity"
+    android:fitsSystemWindows="true">
 
-    <ScrollView
+
+
+<ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,12 +33,21 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
+                <ImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_back"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Configuração da Barbearia"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="16dp"
                     android:textColor="#000000"
                     android:gravity="center"
                     android:layout_marginBottom="24dp"/>
@@ -195,12 +207,10 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSalvar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Salvar"
+                    android:layout_height="56dp"
+                    android:text="SALVAR"
                     android:textSize="16sp"
-                    android:padding="12dp"
-                    app:cornerRadius="8dp"
-                    android:layout_marginTop="8dp"/>
+                    app:cornerRadius="4dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </ScrollView>

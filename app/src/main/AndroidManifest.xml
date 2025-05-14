@@ -7,11 +7,9 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
+        android:label="GoBarber"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,12 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppDelivery"
         tools:targetApi="31">
-        <activity
-            android:name=".view.CodeVerifyLogin"
-            android:exported="false" />
-        <activity
-            android:name=".view.LogarPhone"
-            android:exported="false" />
+
         <activity
             android:name=".view.AlterarAgendamentoActivity"
             android:exported="false" />
@@ -45,12 +38,6 @@
             android:name=".view.BarberDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".view.VerifyCodeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.SendCodeActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.LoginActivity"
             android:exported="false" />
         <activity
@@ -59,15 +46,37 @@
         <activity
             android:name=".controller.ChooseOption"
             android:exported="false" />
+
+        <activity
+            android:name=".view.ConfirmationActivity"
+            android:exported="false"
+            android:theme="@style/AppThemeNoActionbar" />
+
+        <activity
+            android:name=".view.ConfirmationAgendamentoActivity"
+            android:exported="false"
+            android:theme="@style/AppThemeNoActionbar" />
+
+        <activity
+            android:name=".view.BarberClientsActivity"
+            android:parentActivityName=".view.BarberDashboardActivity"/>
+
         <activity
             android:name=".controller.MainMenu"
-            android:exported="false" />
+            android:theme="@style/Theme.AppDelivery.NoActionBar" />
+
+        <activity android:name=".view.TransparentStatusBarActivity" />
+
+        <activity
+            android:name=".view.TermsConditionsActivity"
+            android:theme="@style/Theme.AppDelivery.NoActionBar" />
+
         <activity
             android:name=".view.MainActivity"
+            android:theme="@style/Theme.AppDelivery.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

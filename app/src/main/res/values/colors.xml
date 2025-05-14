@@ -2,7 +2,10 @@
 <resources>
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FFCC00</color>
+    <color name="darkblue">#250285</color>
+    <color name="lightBlue">#17A2C0</color>
+    <color name="pink">#D81B60</color>
     <color name="white">#FFFFFF</color>
     <color name="green">#5FB709</color>
     <color name="Red">#EB0D0D</color>
@@ -14,7 +17,7 @@
     <color name="darkgray">#B2000000</color>
     <color name="lightgray">#1D000000</color>
     <color name="darkgreen">#026909</color>
-    <color name="Offwhite">#36FFFFFF</color>
-    <color name="DarkBlue">#250285</color>
+    <color name="Offwhite">#FFEB3B</color>
+    <color name="offYellow">#FFEB3B</color>
     <color name="yourSelectedColor">#ff0000</color>
 </resources>

@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".controller.MainMenu">
+    tools:context=".controller.MainMenu"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+<LinearLayout
         android:id="@+id/top_section"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,14 +23,14 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
             app:srcCompat="@drawable/logo" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         app:cardBackgroundColor="@color/white"
@@ -53,50 +54,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="32dp"
-                android:text="Login"
+                android:layout_marginBottom="20dp"
+                android:text="Registre-se"
                 android:textColor="@color/Black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="25sp"
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/SignWithEmail"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
                 android:text="ENTRAR COM EMAIL"
+                android:textSize="16sp"
                 android:textAlignment="center"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/emailvector"
                 app:iconGravity="start"
                 app:iconPadding="12dp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/SignWithTelefone"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
-                android:layout_marginBottom="16dp"
-                android:text="ENTRAR COM TELEFONE"
-                android:textAlignment="center"
-                app:cornerRadius="10dp"
-                app:icon="@drawable/telefonevector"
-                app:iconGravity="start"
-                app:iconPadding="12dp" />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@android:color/darker_gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:text="OU" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/SignWithLogin"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
+                android:layout_marginTop="10dp"
                 android:text="JÁ TENHO CONTA"
+                android:textSize="16sp"
                 android:textAlignment="center"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/loginvector"
@@ -108,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:fontFamily="sans-serif-light"
                 android:text="© 2025 BarberApp"
                 android:textColor="#757575"

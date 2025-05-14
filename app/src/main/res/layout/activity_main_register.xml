@@ -6,7 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".view.RegisterActivity">
+    tools:context=".view.RegisterActivity"
+    android:fitsSystemWindows="true">
+
+<ImageView
+        android:id="@+id/backArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="32dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
@@ -119,9 +129,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegistrar"
                 android:layout_width="match_parent"
-                android:layout_height="62dp"
+                android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
                 android:text="Registrar"
+                android:textSize="16sp"
                 android:textAlignment="center"
                 app:cornerRadius="10dp" />
 

@@ -10,13 +10,17 @@
             android:title="Início" />
 
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/nav_clientes"
             android:icon="@drawable/ic_person_24dp"
             android:title="Clientes" />
     </group>
 
     <item android:title="Conta">
         <menu>
+            <item
+                android:id="@+id/excluir_conta"
+                android:icon="@drawable/delete_icon"
+                android:title="Excluir Conta" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_exit_to_app_24dp"

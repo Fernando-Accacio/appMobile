@@ -56,19 +56,5 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        Button signWithTelefoneButton = findViewById(R.id.SignWithTelefone);
-
-
-        signWithTelefoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainMenu.this, ChooseOption.class);
-                intent.putExtra("isPhoneLogin", true); 
-                startActivity(intent);
-            }
-        });
     }
 }

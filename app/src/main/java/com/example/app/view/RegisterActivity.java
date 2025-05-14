@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app.R;
+import com.example.app.controller.ChooseOption;
 import com.example.app.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -27,6 +32,14 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_register);
+
+        ImageView backArrow = findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, ChooseOption.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -59,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                String senhaCriptografada = BCrypt.hashpw(senha, BCrypt.gensalt());
                 mAuth.createUserWithEmailAndPassword(email, senha)
                         .addOnCompleteListener(RegisterActivity.this, task -> {
                             if (task.isSuccessful()) {
@@ -68,11 +82,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     String tipoUsuario = isBarbeiro ? "barbeiro" : "cliente";
 
-                                    User userObject = new User(nome, email, senha, phoneNumber, isBarbeiro ? endereco : null, tipoUsuario);
+                                    User userObject = new User(nome, email, senhaCriptografada, phoneNumber, isBarbeiro ? endereco : null, tipoUsuario);
 
-                                    db.collection("usuarios").document(uid).set(userObject).addOnSuccessListener(aVoid -> {
+                                    db.collection("usuarios").document(uid).set(userObject)
+                                            .addOnSuccessListener(aVoid -> {
                                                 Toast.makeText(RegisterActivity.this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show();
-
                                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                                 startActivity(intent);
                                                 finish();

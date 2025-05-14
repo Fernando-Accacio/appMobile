@@ -15,6 +15,51 @@
     <string name="openDrawer">Abrir Menu</string>
     <string name="closeDrawer">Fechar Menu</string>
 
+    <string name="terms_and_conditions_text">
+    TERMOS E CONDIÇÕES DE USO DO APLICATIVO DE BARBEARIA\n\n
+
+    1. ACEITAÇÃO DOS TERMOS\n
+    Ao utilizar este aplicativo, você concorda em cumprir e ficar vinculado a estes Termos e Condições de Uso. Se você não concordar com qualquer parte destes termos, não poderá acessar ou utilizar nossos serviços.\n\n
+
+    2. DESCRIÇÃO DOS SERVIÇOS\n
+    Nosso aplicativo oferece serviços de agendamento de horários em barbearias, permitindo a usuários localizar barbeiros, visualizar serviços disponíveis, fazer agendamentos e gerenciar seus horários marcados.\n\n
+
+    3. CONTA DE USUÁRIO\n
+    3.1. Para utilizar completamente nossos serviços, você precisará criar uma conta fornecendo informações precisas e atualizadas.\n
+    3.2. Você é responsável por manter a confidencialidade de sua senha e por todas as atividades que ocorrem em sua conta.\n
+    3.3. Você concorda em notificar-nos imediatamente sobre qualquer uso não autorizado de sua conta.\n\n
+
+    4. AGENDAMENTOS E CANCELAMENTOS\n
+    4.1. Ao fazer um agendamento, você se compromete a comparecer no horário marcado ou cancelar com antecedência mínima de 2 horas.\n
+    4.2. Cancelamentos repetidos ou ausências sem aviso prévio podem resultar em restrições ao uso do aplicativo.\n\n
+
+    5. PRIVACIDADE\n
+    5.1. Coletamos e processamos seus dados pessoais de acordo com nossa Política de Privacidade.\n
+    5.2. Ao utilizar nosso aplicativo, você consente com a coleta e uso de suas informações conforme descrito na Política de Privacidade.\n\n
+
+    6. PROPRIEDADE INTELECTUAL\n
+    6.1. Todo o conteúdo apresentado no aplicativo, incluindo logotipos, textos, gráficos e código, é propriedade exclusiva nossa ou de nossos licenciadores.\n
+    6.2. É proibida a reprodução, distribuição ou modificação desse conteúdo sem autorização prévia por escrito.\n\n
+
+    7. LIMITAÇÃO DE RESPONSABILIDADE\n
+    7.1. Não nos responsabilizamos por quaisquer danos diretos, indiretos, incidentais ou consequenciais resultantes do uso ou incapacidade de usar nossos serviços.\n
+    7.2. Não garantimos que o aplicativo estará sempre disponível, seguro ou livre de erros.\n\n
+
+    8. MODIFICAÇÕES DOS TERMOS\n
+    8.1. Reservamo-nos o direito de modificar estes termos a qualquer momento, publicando os termos revisados no aplicativo.\n
+    8.2. O uso contínuo do aplicativo após tais modificações constitui sua aceitação dos novos termos.\n\n
+
+    9. RESCISÃO\n
+    Reservamo-nos o direito de rescindir ou suspender sua conta e acesso ao aplicativo, a nosso critério, sem aviso prévio, por violação destes termos ou por qualquer outro motivo.\n\n
+
+    10. LEI APLICÁVEL\n
+    Estes termos são regidos pelas leis do Brasil, sem considerar disposições de conflitos de leis.\n\n
+
+    Data da última atualização: 25/04/2025\n\n
+
+    Ao clicar em "Li e concordo com os termos e condições acima", você confirma que leu, compreendeu e concorda em ficar vinculado a estes termos.
+</string>
+
 
 </resources>
 

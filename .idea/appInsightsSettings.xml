@@ -9,17 +9,11 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.app" />
+                  <option name="appId" value="visionary.gobarber" />
                   <option name="mobileSdkAppId" value="1:751568021686:android:a1ec61a6401a0460dd9e17" />
                   <option name="projectId" value="my-appdelivery" />
                   <option name="projectNumber" value="751568021686" />
                 </ConnectionSetting>
-              </option>
-              <option name="failureTypes">
-                <list>
-                  <option value="ANR" />
-                  <option value="NON_FATAL" />
-                </list>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />

@@ -10,26 +10,45 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.app.R;
 import com.example.app.model.Agendamento;
 import com.example.app.view.AlterarAgendamentoActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.AgendamentoViewHolder> {
 
-    private List<Agendamento> agendamentos;
+public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.AgendamentoViewHolder> {
+    List<Agendamento> agendamentos;
     private FirebaseFirestore db;
 
     public AgendamentoAdapter(List<Agendamento> agendamentos) {
-        this.agendamentos = agendamentos;
+        this.agendamentos = ordenarAgendamentos(agendamentos);
         this.db = FirebaseFirestore.getInstance();
+    }
+
+    public List<Agendamento> ordenarAgendamentos(List<Agendamento> listaOriginal) {
+        List<Agendamento> listaOrdenada = new ArrayList<>(listaOriginal);
+        Collections.sort(listaOrdenada, (a1, a2) -> {
+            int prioridade1 = getPrioridadeStatus(a1.getStatus());
+            int prioridade2 = getPrioridadeStatus(a2.getStatus());
+            return Integer.compare(prioridade1, prioridade2);
+        });
+        return listaOrdenada;
+    }
+
+    int getPrioridadeStatus(String status) {
+        if (status == null) return 3;
+        switch (status.toLowerCase()) {
+            case "pendente": return 1;
+            case "confirmado": return 2;
+            case "cancelado": return 3;
+            default: return 4;
+        }
     }
 
     @NonNull
@@ -49,7 +68,6 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
         holder.txtDiaHorario.setText(agendamento.getDia() + " - " + agendamento.getHorario());
         holder.txtStatus.setText(agendamento.getStatus());
 
-
         if ("pendente".equals(agendamento.getStatus().toLowerCase())) {
             holder.txtStatus.setTextColor(context.getResources().getColor(android.R.color.holo_orange_dark));
             holder.layoutBotoes.setVisibility(View.VISIBLE);
@@ -58,11 +76,10 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
             holder.layoutBotoes.setVisibility(View.VISIBLE);
         } else if ("cancelado".equals(agendamento.getStatus().toLowerCase())) {
             holder.txtStatus.setTextColor(context.getResources().getColor(android.R.color.darker_gray));
-            holder.layoutBotoes.setVisibility(View.GONE); 
+            holder.layoutBotoes.setVisibility(View.GONE);
         } else {
             holder.txtStatus.setTextColor(context.getResources().getColor(android.R.color.darker_gray));
         }
-
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         if (agendamento.getDataCriacao() != null) {
@@ -71,53 +88,39 @@ public class AgendamentoAdapter extends RecyclerView.Adapter<AgendamentoAdapter.
             holder.txtDataCriacao.setText("Criado em: N/A");
         }
 
-
         holder.btnCancelar.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
                     .setTitle("Cancelar Agendamento")
                     .setMessage("Tem certeza que deseja cancelar este agendamento?")
                     .setPositiveButton("Sim", (dialog, which) -> {
-
                         if (agendamento.getId() != null) {
-
                             db.collection("agendamentos").document(agendamento.getId())
                                     .update("status", "cancelado")
                                     .addOnSuccessListener(aVoid -> {
-
                                         agendamento.setStatus("cancelado");
                                         notifyItemChanged(position);
                                         Toast.makeText(context, "Agendamento cancelado com sucesso", Toast.LENGTH_SHORT).show();
                                     })
                                     .addOnFailureListener(e -> {
-                                        Toast.makeText(context, "Erro ao cancelar: " + e.getMessage(),
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Erro ao cancelar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     });
                         } else {
-                            Toast.makeText(context, "Erro: ID do agendamento não encontrado",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Erro: ID do agendamento não encontrado", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("Não", null)
                     .show();
         });
 
-
         holder.btnAlterar.setOnClickListener(v -> {
             if (agendamento.getId() != null) {
-
                 Toast.makeText(context, "Carregando dados para alterar o agendamento...", Toast.LENGTH_SHORT).show();
-
-
                 Intent intent = new Intent(context, AlterarAgendamentoActivity.class);
-
-
                 intent.putExtra("id", agendamento.getId());
                 intent.putExtra("servico", agendamento.getServico());
                 intent.putExtra("dia", agendamento.getDia());
                 intent.putExtra("barbeiroId", agendamento.getBarbeiroId());
                 intent.putExtra("horario", agendamento.getHorario());
-
-
                 context.startActivity(intent);
             } else {
                 Toast.makeText(context, "Erro: ID do agendamento não encontrado", Toast.LENGTH_SHORT).show();

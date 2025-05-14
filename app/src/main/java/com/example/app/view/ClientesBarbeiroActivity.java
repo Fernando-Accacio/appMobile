@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -18,6 +19,7 @@ import com.example.app.controller.MainMenu;
 import com.example.app.model.Barbeiro;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,74 +34,160 @@ public class ClientesBarbeiroActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.app.R.layout.activity_clientes_barbeiro);
+        setContentView(R.layout.activity_clientes_barbeiro);
 
-        Toolbar toolbar = findViewById(com.example.app.R.id.toolbar);
+        inicializarComponentes();
+        configurarToolbar();
+        configurarRecyclerView();
+        carregarBarbeiros();
+    }
+
+    private void inicializarComponentes() {
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        recyclerView = findViewById(R.id.recyclerViewBarbeiros);
+    }
+
+    private void configurarToolbar() {
         setSupportActionBar(toolbar);
 
-        drawerLayout = findViewById(com.example.app.R.id.drawer_layout);
-        navigationView = findViewById(com.example.app.R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.openDrawer, R.string.closeDrawer);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, com.example.app.R.string.openDrawer, com.example.app.R.string.closeDrawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == com.example.app.R.id.nav_home) {
-                Toast.makeText(this, "Início selecionado", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ClientesBarbeiroActivity.this, DashboardClientActivity.class));
-                finish();
-            } else if (id == com.example.app.R.id.nav_profile) {
-                Toast.makeText(this, "Já está na tela de Clientes", Toast.LENGTH_SHORT).show();
-            } else if (id == com.example.app.R.id.nav_logout) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ClientesBarbeiroActivity.this, MainMenu.class));
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(this, DashboardClientActivity.class));
                 finish();
             }
+            else if (id == R.id.nav_profile) {
+            }
+            else if (id == R.id.nav_logout) {
+                realizarLogout();
+            }else if (id == R.id.excluir_conta) {
+                excluirConta();
+            }
+
             drawerLayout.closeDrawers();
             return true;
         });
+    }
 
-        recyclerView = findViewById(R.id.recyclerViewBarbeiros);
+
+    private void excluirConta() {
+        new AlertDialog.Builder(this)
+                .setTitle("Excluir Conta")
+                .setMessage("Tem certeza de que deseja excluir sua conta?")
+                .setPositiveButton("Sim", (dialog, which) -> {
+                    deletarConta();
+                })
+                .setNegativeButton("Não", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
+    }
+
+    private void deletarConta() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userId = user.getUid();
+
+            db.collection("usuarios").document(userId)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+
+                        user.delete()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        FirebaseAuth.getInstance().signOut();
+                                        startActivity(new Intent(ClientesBarbeiroActivity.this, MainMenu.class));
+                                        finish();
+                                        Toast.makeText(ClientesBarbeiroActivity.this, "Conta excluída com sucesso", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(ClientesBarbeiroActivity.this, "Falha ao excluir conta. Tente novamente.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ClientesBarbeiroActivity.this, "Falha ao excluir dados na Firestore. Tente novamente.", Toast.LENGTH_SHORT).show();
+                        Log.e("Firebase", "Erro ao excluir dados na Firestore", e);
+                    });
+        } else {
+            Toast.makeText(this, "Nenhum usuário logado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    private void configurarRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         adapter = new BarbeiroAdapter(listaBarbeiros);
         recyclerView.setAdapter(adapter);
-
-        db = FirebaseFirestore.getInstance();
-        carregarBarbeiros();
     }
 
     private void carregarBarbeiros() {
+        db = FirebaseFirestore.getInstance();
+
         db.collection("barbeiro")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        String barbeiroId = doc.getId();
-                        String nome = doc.getString("nome");
-                        String email = doc.getString("email");
-                        String endereco = doc.getString("endereco");
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        Toast.makeText(this, "Nenhum barbeiro cadastrado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        listaBarbeiros.clear();
 
-                        List<String> diasDisponiveis = (List<String>) doc.get("diasDisponiveis");
-                        if (diasDisponiveis == null) {
-                            diasDisponiveis = new ArrayList<>();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            String barbeiroId = doc.getId();
+                            String nome = doc.getString("nome");
+                            String email = doc.getString("email");
+                            String endereco = doc.getString("endereco");
+
+                            List<String> diasDisponiveis = (List<String>) doc.get("diasDisponiveis");
+                            if (diasDisponiveis == null) {
+                                diasDisponiveis = new ArrayList<>();
+                            }
+
+                            List<String> servicos = (List<String>) doc.get("servicos");
+                            if (servicos == null) {
+                                servicos = new ArrayList<>();
+                            }
+
+                            Barbeiro barbeiro = new Barbeiro(barbeiroId, nome, email, endereco, diasDisponiveis, servicos);
+                            listaBarbeiros.add(barbeiro);
                         }
 
-                        List<String> servicos = (List<String>) doc.get("servicos");
-                        if (servicos == null) {
-                            servicos = new ArrayList<>();
-                        }
-
-                        Barbeiro barbeiro = new Barbeiro(barbeiroId, nome, email, endereco, diasDisponiveis, servicos);
-                        listaBarbeiros.add(barbeiro);
+                        adapter.notifyDataSetChanged();
                     }
-                    adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> Log.e("Firebase", "Erro ao carregar barbeiros", e));
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao carregar barbeiros", Toast.LENGTH_SHORT).show();
+                    Log.e("Firebase", "Erro ao carregar barbeiros", e);
+                });
+    }
+
+    private void realizarLogout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, MainMenu.class));
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregarBarbeiros();
     }
 }

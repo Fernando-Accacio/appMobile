@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BarbeiroAdapter extends RecyclerView.Adapter<BarbeiroAdapter.BarbeiroViewHolder> {
-    private List<Barbeiro> listaBarbeiros;
+    List<Barbeiro> listaBarbeiros;
 
     public BarbeiroAdapter(List<Barbeiro> listaBarbeiros) {
         this.listaBarbeiros = listaBarbeiros != null ? listaBarbeiros : new ArrayList<>();
