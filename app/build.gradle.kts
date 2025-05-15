@@ -31,8 +31,8 @@ android {
         minSdk = 24
         targetSdk = 35
         // ./gradlew bundleRelease
-        versionCode = 4
-        versionName = "1.0.3"
+        versionCode = 7
+        versionName = "1.0.7"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
